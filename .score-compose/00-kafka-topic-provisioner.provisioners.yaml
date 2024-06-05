@@ -21,6 +21,12 @@
         interval: 2s
         timeout: 2s
         retries: 10
+      {{ $publishPort := (dig "annotations" "compose.score.dev/publish-port" "0" .Metadata | atoi) }}
+      {{ if ne $publishPort 0 }}
+      ports:
+      - target: 9092
+        published: {{ $publishPort }}
+      {{ end }}
       volumes:
       - type: volume
         source: {{ .Shared.shared_kafka_instance_name }}-data

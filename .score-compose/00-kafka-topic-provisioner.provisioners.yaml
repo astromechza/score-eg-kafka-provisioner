@@ -16,6 +16,11 @@
         KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: "0@{{ .Shared.shared_kafka_instance_name }}:9093"
         KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
         KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: "false"
+      healthcheck:
+        test: ["CMD", "kafka-topics.sh", "--list", "--bootstrap-server=localhost:9092"]
+        interval: 2s
+        timeout: 2s
+        retries: 10
   outputs: |
     host: {{ .Shared.shared_kafka_instance_name }}
     port: "9092"

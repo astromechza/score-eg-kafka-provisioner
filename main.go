@@ -22,7 +22,9 @@ func main() {
 	}
 
 	log.Printf("connecting to %s:%s/%s and sending 'ping' every 5s", host, port, topicName)
-	conn, err := kafka.DialLeader(context.Background(), "tcp", fmt.Sprintf("%s:%s", host, port), topicName, 0)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*5)
+	defer cancel()
+	conn, err := kafka.DialLeader(ctx, "tcp", fmt.Sprintf("%s:%s", host, port), topicName, 0)
 	if err != nil {
 		log.Fatalf("failed to dial to kafka: %v", err)
 	}

@@ -1,1 +1,6 @@
-{}
+- uri: template://custom-provisioners/kafka-topic
+  type: kafka-topic
+  outputs: |
+    host: unknown
+    port: "9092"
+    name: unknown

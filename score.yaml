@@ -1,0 +1,15 @@
+apiVersion: score.dev/v1b1
+metadata:
+  name: sample-app
+
+containers:
+  main:
+    image: .
+    variables:
+      KAFKA_HOST: ${resources.bus.host}
+      KAFKA_PORT: ${resources.bus.port}
+      KAFKA_TOPIC: ${resources.bus.name}
+
+resources:
+  bus:
+    type: kafka-topic

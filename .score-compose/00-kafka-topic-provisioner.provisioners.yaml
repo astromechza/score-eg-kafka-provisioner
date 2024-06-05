@@ -34,7 +34,7 @@
     {{ .State.topic }}-init:
       image: bitnami/kafka:latest
       entrypoint: ["/bin/sh"]
-      command: ["-c", "kafka-topics.sh --topic={{.State.topic}} --bootstrap-server=localhost:9092 --describe || kafka-topics.sh --topic={{.State.topic}} --bootstrap-server=localhost:9092 --create"]
+      command: ["-c", "kafka-topics.sh --topic={{.State.topic}} --bootstrap-server=localhost:9092 --describe || kafka-topics.sh --topic={{.State.topic}} --bootstrap-server=localhost:9092 --create --partitions=3"]
       network_mode: "service:{{ .Shared.shared_kafka_instance_name }}"
       labels:
         dev.score.compose.labels.is-init-container: "true"
@@ -49,3 +49,4 @@
     host: {{ .Shared.shared_kafka_instance_name }}
     port: "9092"
     name: {{ .State.topic }}
+    num_partitions: 3

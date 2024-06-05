@@ -21,6 +21,17 @@
         interval: 2s
         timeout: 2s
         retries: 10
+    {{ .State.topic }}-init:
+      image: bitnami/kafka:latest
+      entrypoint: ["/bin/sh"]
+      command: ["-c", "kafka-topics.sh --topic={{.State.topic}} --bootstrap-server=localhost:9092 --describe || kafka-topics.sh --topic={{.State.topic}} --bootstrap-server=localhost:9092 --create"]
+      network_mode: "service:{{ .Shared.shared_kafka_instance_name }}"
+      labels:
+        dev.score.compose.labels.is-init-container: "true"
+      depends_on:
+        {{ .Shared.shared_kafka_instance_name }}:
+          condition: service_healthy
+          restart: true
   outputs: |
     host: {{ .Shared.shared_kafka_instance_name }}
     port: "9092"

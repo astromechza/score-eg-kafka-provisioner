@@ -21,6 +21,10 @@
         interval: 2s
         timeout: 2s
         retries: 10
+      volumes:
+      - type: volume
+        source: {{ .Shared.shared_kafka_instance_name }}-data
+        target: /bitnami/kafka
     {{ .State.topic }}-init:
       image: bitnami/kafka:latest
       entrypoint: ["/bin/sh"]
@@ -32,6 +36,9 @@
         {{ .Shared.shared_kafka_instance_name }}:
           condition: service_healthy
           restart: true
+  volumes: |
+    {{ .Shared.shared_kafka_instance_name }}-data:
+      driver: local
   outputs: |
     host: {{ .Shared.shared_kafka_instance_name }}
     port: "9092"

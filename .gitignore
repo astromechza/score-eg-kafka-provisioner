@@ -22,4 +22,5 @@ go.work
 go.work.sum
 
 # Score
-.score-compose/
+.score-compose/*
+!.score-compose/00-kafka-topic-provisioner.provisioners.yaml
